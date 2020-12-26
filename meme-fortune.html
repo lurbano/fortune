@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+      <meta charset="utf-8"/>
+      <title>Eve's Fortune Teller</title>
+    <script type="text/javascript" src="jquery-3.4.1.min.js"> </script>
+    <script type="text/javascript" src="fortune.js"> </script>
+
+    <style type="text/css">
+      .meme-container {
+        width: 450px;
+        height: 250px;
+        position: relative;
+        text-align: center;
+        color: yellow;
+      }
+      .meme-text {
+        /* background-color: red; */
+        position: absolute;
+        left: 25px;
+        width: 400px;
+        top: 25%;
+        transform: translate(0%, -25%);
+        text-align: center;
+        color: white;
+      }
+    </style>
+    </head>
+    <body style="background-color:white;">
+        <div id="meme-container" class='meme-img'></div>
+    </body>
+
+  <script type="text/javascript">
+    var flags = {};
+		const params = new URLSearchParams(window.location.search);
+		//console.log("params", window.location.search, params.get('hi'));
+		flags["name"] = params.get('name') ? params.get('name') : "X";
+
+
+
+    var fortuneTell = new fortuneTeller(flags["name"]);
+    var fortune = fortuneTell.getFortune();
+    console.log(fortune);
+
+    var memeDiv = document.getElementById("meme-container");
+    var memeImg = document.createElement('img');
+    memeImg.src = 'rain-window-450x250.png';
+    memeDiv.appendChild(memeImg);
+
+    var memeTxt = document.createElement("DIV");
+    memeTxt.innerHTML = fortune;
+    memeTxt.id = 'meme-string';
+    memeTxt.classList.add("meme-text");
+    memeDiv.appendChild(memeTxt);
+
+  </script>
+
+</html>

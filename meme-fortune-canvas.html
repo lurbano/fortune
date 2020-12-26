@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+      <meta charset="utf-8"/>
+    <script type="text/javascript" src="jquery-3.4.1.min.js"> </script>
+    <script type="text/javascript" src="fortune.js"> </script>
+    <style type="text/css">
+    </style>
+    </head>
+    <body style="background-color:white;">
+      <h1 style="color:purple">Eve's Fortune Teller</h1><!--This is a header-->
+        <div id="fortune">
+        </div>
+        <canvas id="meme" width="450" height="250"></canvas>
+    </body>
+
+  <script type="text/javascript">
+    var fortuneTell = new fortuneTeller("Doc");
+    var fortune = fortuneTell.getFortune("arr");
+    console.log(fortune);
+    var canvas = document.getElementById('meme');
+    var ctx = canvas.getContext('2d');
+    var img = new Image();
+    img.src = 'rain-window-450x250.png';
+    img.onload = function(){
+      ctx.drawImage(img, 0, 0);
+      ctx.font = "14px Arial";
+      ctx.fillStyle = "yellow";
+      ctx.textAlign = "center";
+      ctx.fillText(fortune + '\nHello', canvas.width/2, canvas.height*0.25, canvas.width*0.9);
+    }
+
+  </script>
+
+</html>
