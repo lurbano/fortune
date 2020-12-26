@@ -25,34 +25,43 @@
         color: white;
       }
     </style>
+
+    <script type="text/javascript">
+      var flags = {};
+      const params = new URLSearchParams(window.location.search);
+      //console.log("params", window.location.search, params.get('hi'));
+      flags["name"] = params.get('name') ? params.get('name') : "X";
+
+
+
+      $('document').ready(function(){
+        var fortuneTell = new fortuneTeller(flags["name"]);
+        var fortune = fortuneTell.getFortune();
+        console.log(fortune);
+
+        var memeDiv = document.getElementById("meme-container");
+        var memeImg = document.createElement('img');
+        memeImg.src = 'rain-window-450x250.png';
+        memeDiv.appendChild(memeImg);
+
+        var memeTxt = document.createElement("DIV");
+        memeTxt.innerHTML = fortune;
+        // memeTxt.style.visibility = 'hidden';
+        memeTxt.id = 'meme-string';
+        memeTxt.classList.add("meme-text");
+        memeDiv.appendChild(memeTxt);
+
+        // $("#meme-string").fadeIn();
+      });
+
+    </script>
+
+
     </head>
     <body style="background-color:white;">
         <div id="meme-container" class='meme-img'></div>
     </body>
 
-  <script type="text/javascript">
-    var flags = {};
-		const params = new URLSearchParams(window.location.search);
-		//console.log("params", window.location.search, params.get('hi'));
-		flags["name"] = params.get('name') ? params.get('name') : "X";
 
-
-
-    var fortuneTell = new fortuneTeller(flags["name"]);
-    var fortune = fortuneTell.getFortune();
-    console.log(fortune);
-
-    var memeDiv = document.getElementById("meme-container");
-    var memeImg = document.createElement('img');
-    memeImg.src = 'rain-window-450x250.png';
-    memeDiv.appendChild(memeImg);
-
-    var memeTxt = document.createElement("DIV");
-    memeTxt.innerHTML = fortune;
-    memeTxt.id = 'meme-string';
-    memeTxt.classList.add("meme-text");
-    memeDiv.appendChild(memeTxt);
-
-  </script>
 
 </html>
