@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Eve's Fortune Teller</title>
+    <script type="text/javascript" src="fortune.js"> </script>
+    <script type="text/javascript" src="uMeme.js"> </script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var flags = {};
+      const params = new URLSearchParams(window.location.search);
+      //console.log("params", window.location.search, params.get('hi'));
+      flags["name"] = params.get('name') ? params.get('name') : "X";
+      var fortuneTell = new fortuneTeller(flags["name"]);
+      var fortune = fortuneTell.getFortune();
+      console.log(fortune);
+
+      let svg = new uMeme({txt:fortune});
+    </script>
+  </body>
+</html>
