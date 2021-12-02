@@ -7,46 +7,25 @@
     <script type="text/javascript" src="uMeme.js"> </script>
   </head>
   <body>
-    Name: <input type="text" id="nameIn" value="X">
+    Name: <input type="text" id="nameIn" value="">
     <input type="button" id="nameBut" value="Enter">
     <div id="fortuneDiv">
 
-      <script type="text/javascript">
-        var flags = {};
-        const params = new URLSearchParams(window.location.search);
-        //console.log("params", window.location.search, params.get('hi'));
-        flags["name"] = params.get('name') ? params.get('name') : "X";
-        if (flags["name"] !== "X"){
-          var fortuneTell = new fortuneTeller(flags["name"]);
-          var fortune = fortuneTell.getFortune();
-          console.log(fortune);
-          svg = new uMeme({txt:fortune});
-        }
-
-        function showFortune(){
-
-        }
-
-        var nameBut = document.getElementById("nameBut");
-        nameBut.addEventListener('click', showFortune);
-
-
-      </script>
     </div>
 
 
   </body>
+
   <script type="text/javascript">
-    
-    if (flags["name"] !== "X"){
-      var fortuneTell = new fortuneTeller(flags["name"]);
-      var fortune = fortuneTell.getFortune();
-      console.log(fortune);
-      svg = new uMeme({txt:fortune});
-    }
 
     function showFortune(){
-
+      let userName = document.getElementById("nameIn").value;
+      if (userName === ""){
+        alert("Please enter your name.")
+      }
+      let fortuneTell = new fortuneTeller(userName);
+      let fortune = fortuneTell.getFortune();
+      svg = new uMeme({txt:fortune, divId:"fortuneDiv"});
     }
 
     var nameBut = document.getElementById("nameBut");

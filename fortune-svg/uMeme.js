@@ -1,8 +1,16 @@
 
 class uMeme{
-  constructor({ txt="Hi!", img="rain-window-450x250.png",  id = undefined,
-                elementStyle={}, imageStyle={}, textStyle={} } = {} ){
+  constructor({
+                txt="Hi!",
+                img="rain-window-450x250.png",
+                divId=undefined,  // parent div (otherwise inserts after script)
+                elementStyle={},
+                imageStyle={},
+                textStyle={} } = {}
+              ){
+
     let defaultElementStyle = {
+      id: undefined,
       width: 450,
       height: 250
     }
@@ -25,35 +33,52 @@ class uMeme{
     }
     this.textStyle = {...defaultTextStyle, ...textStyle};
 
-    this.preDefinedElement = (id === undefined) ? false : true;
-    this.id = (id === undefined) ? "svg_" + Math.random().toString(36).substr(2, 5) : id;
+    this.divId = divId;
 
-    this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    this.setAttributes(this.svg, this.elementStyle);
+    this.elementStyle.id = this.createElement();
 
     //add image
-    this.imageElement = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    this.setAttributes(this.imageElement, this.imageStyle);
-    this.svg.appendChild(this.imageElement);
+    this.addBackgroundImage({imageStyle});
 
     //add text
     //this.txt = 'one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty';
     this.txt = txt;
     this.textElement = this.addText(this.txt);
 
-    //install on webpage before script element
-    let scriptElement = document.currentScript;
-    let parentElement = scriptElement.parentNode;
-    parentElement.insertBefore(this.svg, scriptElement);
-
     //adjust text element
     this.lines = this.wrap();
     this.textElement.remove();
 
-
-
-
   }
+  createElement({elementStyle = undefined} = {}){
+    elementStyle = (elementStyle === undefined) ? this.elementStyle : elementStyle;
+    elementStyle = {...this.elementStyle, ...elementStyle};
+
+    elementStyle.id = (elementStyle.id === undefined) ?
+                      "uMeme_" + Math.random().toString(36).substr(2, 5) : elementStyle.id;
+
+    this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    this.setAttributes(this.svg, elementStyle);
+
+    if (this.divId === undefined) {
+      let scriptElement = document.currentScript;
+      let parentElement = scriptElement.parentNode;
+      parentElement.insertBefore(this.svg, scriptElement);
+      }
+    else {
+      let parentElement = document.getElementById(this.divId);
+      parentElement.replaceChildren(this.svg);
+    }
+
+    return elementStyle.id;
+  }
+
+  addBackgroundImage({imageStyle={}} = {} ){
+    this.imageElement = document.createElementNS("http://www.w3.org/2000/svg", "image");
+    this.setAttributes(this.imageElement, this.imageStyle);
+    this.svg.appendChild(this.imageElement);
+  }
+
   addText(txt, {style=this.textStyle}={}){
     let textElm = document.createElementNS("http://www.w3.org/2000/svg", "text");
     this.setAttributes(textElm, style);
