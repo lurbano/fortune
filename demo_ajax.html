@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #fortuneJSON {
+            border: 1px solid red;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="username" placeholder="Name" value="Doc">
+    
+    <input type="button" id="get_fortune" value="Get Fortune">
+
+    <div id="fortuneJSON">JSON response</div>
+    <div id="fortune">My fortune here.</div>
+    
+</body>
+
+<script>
+    //get element
+    butDiv = document.getElementById("get_fortune");
+    //add event handler
+    butDiv.addEventListener("click", getFortune);
+
+    //get fortune function
+    function getFortune(){
+        
+        //send name to fortuneteller webpage
+        url = 'https://soriki.com/eve/fortune/fortune-json.php';
+        xRequest = new XMLHttpRequest();
+        //function to handle info returned
+        xRequest.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("fortuneJSON").innerHTML = this.responseText;
+                let response = JSON.parse(this.responseText);
+                document.getElementById("fortune").innerHTML = response["fortune"];
+            }
+        };
+
+        
+        //compose url parameters to be sent with the GET 
+        //get name
+        username = document.getElementById("username").value;
+        //debug: check if page gets the name
+        console.log(username);
+        params = `?name=${username}`;
+        console.log(params);
+        //add params to url
+        url += params;
+        //setup sent as GET, url, and asynchronous (true)
+        xRequest.open("GET", url, true);
+        xRequest.send();
+
+    }
+
+</script>
+
+</html>
